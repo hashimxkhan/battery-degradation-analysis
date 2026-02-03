@@ -26,3 +26,21 @@ def plot_raw_vs_smoothed(df):
         plt.legend()
         plt.tight_layout()
         plt.show()
+
+def plot_rolling_slope(df):
+    for battery_id, group in df.groupby("battery_id"):
+        plt.figure()
+
+        plt.plot(
+            group["cycle"],
+            group["rolling_slope"],
+            label="Rolling slope"
+        )
+
+        plt.axhline(0, linestyle="--", color="gray", linewidth=1)
+        plt.xlabel("Cycle")
+        plt.ylabel("Rolling Slope (ΔCapacity per Cycle)")
+        plt.title(f"Battery {battery_id}: Degradation Rate Over Time")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
