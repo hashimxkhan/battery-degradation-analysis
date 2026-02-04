@@ -44,3 +44,31 @@ def plot_rolling_slope(df):
         plt.legend()
         plt.tight_layout()
         plt.show()
+
+def plot_curvature_with_persistence(df):
+
+    for battery_id, group in df.groupby("battery_id"):
+        plt.figure()
+
+        plt.plot(
+            group["cycle"],
+            group["curvature"],
+            label="Curvature (Δslope)",
+            color="blue"
+        )
+        persistent = group["persistent_accel"]
+        plt.scatter(
+            group.loc[persistent, "cycle"],
+            group.loc[persistent, "curvature"],
+            color="red",
+            label="Persistent acceleration",
+            zorder=3
+        )
+
+        plt.axhline(0, linestyle="--", color="gray", linewidth=1)
+        plt.xlabel("Cycle")
+        plt.ylabel("Curvature (ΔSlope per Cycle)")
+        plt.title(f"Battery {battery_id}: Curvature & Persistence")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
