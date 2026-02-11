@@ -2,7 +2,9 @@ from src.load_data import load_battery_data
 from src.plots import plot_raw_capacity, plot_raw_vs_smoothed, plot_rolling_slope,plot_curvature_with_persistence
 from src.preprocess import preprocess
 from src.features import compute_rolling_slope, compute_curvature, detect_persistent_acceleration
+from src.knee import detect_knee
 import pandas as pd
+
 
 path = "data/battery_dataset.csv"
 
@@ -19,6 +21,8 @@ def main():
     df = detect_persistent_acceleration( df, curvature_threshold=-1e-5, persistence_window=10)
     plot_curvature_with_persistence(df)
     print(df[["battery_id", "cycle", "curvature", "persistent_accel"]])
+    knee_results = detect_knee(df)
+    print(knee_results)
 
 
 if __name__ == "__main__":
